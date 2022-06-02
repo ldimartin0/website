@@ -13,10 +13,10 @@
     
     <item>
       <title>Packages for Exploratory Data Analysis in R</title>
-      <link>https://lukedimartino.com/post/2022-04-17-packages-for-exploratory-data-analysis-in-r/</link>
+      <link>https://lukedimartino.com/post/eda-packages/</link>
       <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://lukedimartino.com/post/2022-04-17-packages-for-exploratory-data-analysis-in-r/</guid>
+      <guid>https://lukedimartino.com/post/eda-packages/</guid>
       <description>&lt;p&gt;These are some of my favorite packages for exploratory data analysis outside of the &lt;code&gt;tidyverse&lt;/code&gt; in R. Their functionality rarely reaches a paper, report, or production, but they are invaluable for understanding data.&lt;/p&gt;
 &lt;h3 id=&#34;rio&#34;&gt;&lt;code&gt;rio&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;rio&lt;/code&gt; handles all file input/output needs with a simple, intuitive interface for popular functions from &lt;code&gt;haven&lt;/code&gt;, &lt;code&gt;data.table&lt;/code&gt;, and others for individual file types. &lt;code&gt;import()&lt;/code&gt; and &lt;code&gt;export()&lt;/code&gt; abstract from that complexity with intuitive defaults like not converting strings to factors. &lt;code&gt;import_list()&lt;/code&gt; can get an entire directory of files into R easily.&lt;/p&gt;
