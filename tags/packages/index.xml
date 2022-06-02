@@ -17,7 +17,7 @@
       <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
       
       <guid>https://lukedimartino.com/post/2022-04-17-packages-for-exploratory-data-analysis-in-r/</guid>
-      <description>&lt;p&gt;These are some of my favorite packages for exploratory data analysis outside of the &lt;code&gt;tidyverse&lt;/code&gt; in R. Their functionality rarely reaches a paper, report, or production, but they are invaluable for understanding data. &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+      <description>&lt;p&gt;These are some of my favorite packages for exploratory data analysis outside of the &lt;code&gt;tidyverse&lt;/code&gt; in R. Their functionality rarely reaches a paper, report, or production, but they are invaluable for understanding data.&lt;/p&gt;
 &lt;h3 id=&#34;rio&#34;&gt;&lt;code&gt;rio&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;rio&lt;/code&gt; handles all file input/output needs with a simple, intuitive interface for popular functions from &lt;code&gt;haven&lt;/code&gt;, &lt;code&gt;data.table&lt;/code&gt;, and others for individual file types. &lt;code&gt;import()&lt;/code&gt; and &lt;code&gt;export()&lt;/code&gt; abstract from that complexity with intuitive defaults like not converting strings to factors. &lt;code&gt;import_list()&lt;/code&gt; can get an entire directory of files into R easily.&lt;/p&gt;
 &lt;p&gt;Find &lt;code&gt;rio&lt;/code&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/rio/index.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; and documentation &lt;a href=&#34;https://www.rdocumentation.org/packages/rio/versions/0.5.29&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
@@ -94,13 +94,13 @@
 ## am   dbl 1 1 1 0 0 0
 ## gear dbl 4 4 4 3 3 3
 ## carb dbl 4 4 1 1 2 1
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;paint&lt;/code&gt; print cleanly and exploits text color in the terminal, Hugo won&amp;rsquo;t render in the browser. So the output I see in my terminal is:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;paint&lt;/code&gt; prints clean, readable text that exploits color in the terminal. Unfortunately, Hugo won&amp;rsquo;t render that in the browser but here is output I see in my terminal:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;images/paint.png&#34; alt=&#34;paint terminal output&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;paint&lt;/code&gt; can be set as the default print method or called independently. When set as default with &lt;code&gt;mask_print()&lt;/code&gt;, it makes &lt;code&gt;head()&lt;/code&gt;, &lt;code&gt;tail()&lt;/code&gt;, and &lt;code&gt;sample()&lt;/code&gt; much more readable. I use it as a default, so data frame outputs from other functions in this post are painted, not printed.&lt;/p&gt;
 &lt;p&gt;For more details, watch &lt;a href=&#34;https://www.youtube.com/watch?v=DZuVdECq168&#34; target=&#34;_blank&#34;&gt;this video&lt;/a&gt; by Bruno Rodrigues.&lt;/p&gt;
 &lt;p&gt;Find &lt;code&gt;paint&lt;/code&gt; and documentation &lt;a href=&#34;https://github.com/MilesMcBain/paint&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;dataexplorer&#34;&gt;&lt;code&gt;DataExplorer&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;DataExlorer&lt;/code&gt; produces simple preliminary reports of data structure.&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;code&gt;create_report()&lt;/code&gt; knits an HTML document with statistics on dimensions, missing values (number in total, number by column, and number of complete rows), and column types. In addition, for each column it prints a histogram, QQ plot, correlation matrix, and conducts principal component analysis.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;DataExlorer&lt;/code&gt; produces simple preliminary reports of data structure.&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;code&gt;create_report()&lt;/code&gt; knits an HTML document with statistics on dimensions, missing values (number in total, number by column, and number of complete rows), and column types. In addition, for each column it prints a histogram, QQ plot, correlation matrix, and conducts principal component analysis.&lt;/p&gt;
 &lt;p&gt;Find &lt;code&gt;DataExplorer&lt;/code&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/DataExplorer/index.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; and documentation &lt;a href=&#34;https://www.rdocumentation.org/packages/DataExplorer/versions/0.8.2&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;janitor&#34;&gt;&lt;code&gt;janitor&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;janitor&lt;/code&gt; solves the most general data cleaning problems in simple, user-friendly functions. &lt;code&gt;clean_names()&lt;/code&gt; changes column names to &lt;code&gt;lower_snake_case&lt;/code&gt; with smart features for recognizing word breaks, changing symbols to words (% to &amp;ldquo;percent&amp;rdquo;), and more. &lt;code&gt;tabyl()&lt;/code&gt; is an improvement on &lt;code&gt;base::table()&lt;/code&gt;, a function for reporting frequency counts and percentages, with options for missing values. &lt;code&gt;get_dupes()&lt;/code&gt; and &lt;code&gt;remove_empty()&lt;/code&gt; are useful helpers for duplicated or empty rows and columns.&lt;/p&gt;
@@ -110,10 +110,7 @@
 &lt;hr&gt;
 &lt;ol&gt;
 &lt;li id=&#34;fn:1&#34;&gt;
-&lt;p&gt;These packages, particularly &lt;code&gt;modelsummary&lt;/code&gt;, include functions that are not only for EDA. For the purposes of this post, I focus exclusively on functionality for EDA.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li id=&#34;fn:2&#34;&gt;
-&lt;p&gt;It genuinely feels like cheating the process. I delay teaching it to new analysts because learning &lt;code&gt;dplyr&lt;/code&gt; motions like &lt;code&gt;group_by() %&amp;gt;% summarize()&lt;/code&gt; to understand data are fundamental.&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;It genuinely feels like cheating the process. I delay teaching it to new analysts because learning &lt;code&gt;dplyr&lt;/code&gt; motions like &lt;code&gt;group_by() %&amp;gt;% summarize()&lt;/code&gt; to understand data are fundamental.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;

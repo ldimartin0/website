@@ -28,7 +28,7 @@
             <div class="date"><h5>Apr 17, 2022</h5></div>
         </div>
         <article class="content">
-            <p>These are some of my favorite packages for exploratory data analysis outside of the <code>tidyverse</code> in R. Their functionality rarely reaches a paper, report, or production, but they are invaluable for understanding data. <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+            <p>These are some of my favorite packages for exploratory data analysis outside of the <code>tidyverse</code> in R. Their functionality rarely reaches a paper, report, or production, but they are invaluable for understanding data.</p>
 <h3 id="rio"><code>rio</code></h3>
 <p><code>rio</code> handles all file input/output needs with a simple, intuitive interface for popular functions from <code>haven</code>, <code>data.table</code>, and others for individual file types. <code>import()</code> and <code>export()</code> abstract from that complexity with intuitive defaults like not converting strings to factors. <code>import_list()</code> can get an entire directory of files into R easily.</p>
 <p>Find <code>rio</code> <a href="https://cran.r-project.org/web/packages/rio/index.html" target="_blank">here</a> and documentation <a href="https://www.rdocumentation.org/packages/rio/versions/0.5.29" target="_blank">here</a>.</p>
@@ -105,13 +105,13 @@
 ## am   dbl 1 1 1 0 0 0
 ## gear dbl 4 4 4 3 3 3
 ## carb dbl 4 4 1 1 2 1
-</code></pre><p><code>paint</code> print cleanly and exploits text color in the terminal, Hugo won&rsquo;t render in the browser. So the output I see in my terminal is:</p>
+</code></pre><p><code>paint</code> prints clean, readable text that exploits color in the terminal. Unfortunately, Hugo won&rsquo;t render that in the browser but here is output I see in my terminal:</p>
 <p><img src="images/paint.png" alt="paint terminal output"></p>
 <p><code>paint</code> can be set as the default print method or called independently. When set as default with <code>mask_print()</code>, it makes <code>head()</code>, <code>tail()</code>, and <code>sample()</code> much more readable. I use it as a default, so data frame outputs from other functions in this post are painted, not printed.</p>
 <p>For more details, watch <a href="https://www.youtube.com/watch?v=DZuVdECq168" target="_blank">this video</a> by Bruno Rodrigues.</p>
 <p>Find <code>paint</code> and documentation <a href="https://github.com/MilesMcBain/paint" target="_blank">here</a>.</p>
 <h3 id="dataexplorer"><code>DataExplorer</code></h3>
-<p><code>DataExlorer</code> produces simple preliminary reports of data structure.<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> <code>create_report()</code> knits an HTML document with statistics on dimensions, missing values (number in total, number by column, and number of complete rows), and column types. In addition, for each column it prints a histogram, QQ plot, correlation matrix, and conducts principal component analysis.</p>
+<p><code>DataExlorer</code> produces simple preliminary reports of data structure.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <code>create_report()</code> knits an HTML document with statistics on dimensions, missing values (number in total, number by column, and number of complete rows), and column types. In addition, for each column it prints a histogram, QQ plot, correlation matrix, and conducts principal component analysis.</p>
 <p>Find <code>DataExplorer</code> <a href="https://cran.r-project.org/web/packages/DataExplorer/index.html" target="_blank">here</a> and documentation <a href="https://www.rdocumentation.org/packages/DataExplorer/versions/0.8.2" target="_blank">here</a>.</p>
 <h3 id="janitor"><code>janitor</code></h3>
 <p><code>janitor</code> solves the most general data cleaning problems in simple, user-friendly functions. <code>clean_names()</code> changes column names to <code>lower_snake_case</code> with smart features for recognizing word breaks, changing symbols to words (% to &ldquo;percent&rdquo;), and more. <code>tabyl()</code> is an improvement on <code>base::table()</code>, a function for reporting frequency counts and percentages, with options for missing values. <code>get_dupes()</code> and <code>remove_empty()</code> are useful helpers for duplicated or empty rows and columns.</p>
@@ -121,10 +121,7 @@
 <hr>
 <ol>
 <li id="fn:1">
-<p>These packages, particularly <code>modelsummary</code>, include functions that are not only for EDA. For the purposes of this post, I focus exclusively on functionality for EDA.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:2">
-<p>It genuinely feels like cheating the process. I delay teaching it to new analysts because learning <code>dplyr</code> motions like <code>group_by() %&gt;% summarize()</code> to understand data are fundamental.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>It genuinely feels like cheating the process. I delay teaching it to new analysts because learning <code>dplyr</code> motions like <code>group_by() %&gt;% summarize()</code> to understand data are fundamental.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </div>
