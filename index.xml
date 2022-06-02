@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Luke DiMartino</title>
+    <link>https://lukedimartino.com/</link>
+    <description>Recent content on Luke DiMartino</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 17 Apr 2022 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lukedimartino.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Packages for Exploratory Data Analysis in R</title>
+      <link>https://lukedimartino.com/post/2022-04-17-packages-for-exploratory-data-analysis-in-r/</link>
+      <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lukedimartino.com/post/2022-04-17-packages-for-exploratory-data-analysis-in-r/</guid>
+      <description>&lt;p&gt;These are some of my favorite packages for exploratory data analysis outside of the &lt;code&gt;tidyverse&lt;/code&gt; in R. Their functionality rarely reaches a paper, report, or production, but they are invaluable for understanding data. &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;h3 id=&#34;rio&#34;&gt;&lt;code&gt;rio&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;rio&lt;/code&gt; handles all file input/output needs with a simple, intuitive interface for popular functions from &lt;code&gt;haven&lt;/code&gt;, &lt;code&gt;data.table&lt;/code&gt;, and others for individual file types. &lt;code&gt;import()&lt;/code&gt; and &lt;code&gt;export()&lt;/code&gt; abstract from that complexity with intuitive defaults like not converting strings to factors. &lt;code&gt;import_list()&lt;/code&gt; can get an entire directory of files into R easily.&lt;/p&gt;
+&lt;p&gt;Find &lt;code&gt;rio&lt;/code&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/rio/index.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; and documentation &lt;a href=&#34;https://www.rdocumentation.org/packages/rio/versions/0.5.29&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;paint&#34;&gt;&lt;code&gt;paint&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;paint&lt;/code&gt; supplies beautiful terminal print methods for data frames. Compare the following methods.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:2;-o-tab-size:2;tab-size:2;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;library&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;paint&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;library&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;dplyr&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:2;-o-tab-size:2;tab-size:2;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;print&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;mtcars&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;##                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+## Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+## Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+## Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+## Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+## Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+## Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+## Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+## Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+## Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+## Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+## Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+## Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+## Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+## Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+## Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+## Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+## Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+## AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+## Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+## Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+## Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+## Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+## Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+## Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+## Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+## Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+## Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:2;-o-tab-size:2;tab-size:2;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;print&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;head&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;mtcars&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:2;-o-tab-size:2;tab-size:2;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;glimpse&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;mtcars&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;## Rows: 32
+## Columns: 11
+## $ mpg  &amp;lt;dbl&amp;gt; 21.0, 21.0, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8,…
+## $ cyl  &amp;lt;dbl&amp;gt; 6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8,…
+## $ disp &amp;lt;dbl&amp;gt; 160.0, 160.0, 108.0, 258.0, 360.0, 225.0, 360.0, 146.7, 140.8, 16…
+## $ hp   &amp;lt;dbl&amp;gt; 110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180…
+## $ drat &amp;lt;dbl&amp;gt; 3.90, 3.90, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92,…
+## $ wt   &amp;lt;dbl&amp;gt; 2.620, 2.875, 2.320, 3.215, 3.440, 3.460, 3.570, 3.190, 3.150, 3.…
+## $ qsec &amp;lt;dbl&amp;gt; 16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20.00, 22.90, 18…
+## $ vs   &amp;lt;dbl&amp;gt; 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0,…
+## $ am   &amp;lt;dbl&amp;gt; 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0,…
+## $ gear &amp;lt;dbl&amp;gt; 4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3,…
+## $ carb &amp;lt;dbl&amp;gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2,…
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:2;-o-tab-size:2;tab-size:2;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;paint&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;mtcars&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;## data.frame [32, 11] 
+## mpg  dbl 21 21 22.8 21.4 18.7 18.1
+## cyl  dbl 6 6 4 6 8 6
+## disp dbl 160 160 108 258 360 225
+## hp   dbl 110 110 93 110 175 105
+## drat dbl 3.9 3.9 3.85 3.08 3.15 2.76
+## wt   dbl 2.62 2.875 2.32 3.215 3.44 3.46
+## qsec dbl 16.46 17.02 18.61 19.44 17.02 20.22
+## vs   dbl 0 0 1 1 0 1
+## am   dbl 1 1 1 0 0 0
+## gear dbl 4 4 4 3 3 3
+## carb dbl 4 4 1 1 2 1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;paint&lt;/code&gt; print cleanly and exploits text color in the terminal, Hugo won&amp;rsquo;t render in the browser. So the output I see in my terminal is:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;images/paint.png&#34; alt=&#34;paint terminal output&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;paint&lt;/code&gt; can be set as the default print method or called independently. When set as default with &lt;code&gt;mask_print()&lt;/code&gt;, it makes &lt;code&gt;head()&lt;/code&gt;, &lt;code&gt;tail()&lt;/code&gt;, and &lt;code&gt;sample()&lt;/code&gt; much more readable. I use it as a default, so data frame outputs from other functions in this post are painted, not printed.&lt;/p&gt;
+&lt;p&gt;For more details, watch &lt;a href=&#34;https://www.youtube.com/watch?v=DZuVdECq168&#34; target=&#34;_blank&#34;&gt;this video&lt;/a&gt; by Bruno Rodrigues.&lt;/p&gt;
+&lt;p&gt;Find &lt;code&gt;paint&lt;/code&gt; and documentation &lt;a href=&#34;https://github.com/MilesMcBain/paint&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;dataexplorer&#34;&gt;&lt;code&gt;DataExplorer&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;DataExlorer&lt;/code&gt; produces simple preliminary reports of data structure.&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;code&gt;create_report()&lt;/code&gt; knits an HTML document with statistics on dimensions, missing values (number in total, number by column, and number of complete rows), and column types. In addition, for each column it prints a histogram, QQ plot, correlation matrix, and conducts principal component analysis.&lt;/p&gt;
+&lt;p&gt;Find &lt;code&gt;DataExplorer&lt;/code&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/DataExplorer/index.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; and documentation &lt;a href=&#34;https://www.rdocumentation.org/packages/DataExplorer/versions/0.8.2&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;janitor&#34;&gt;&lt;code&gt;janitor&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;janitor&lt;/code&gt; solves the most general data cleaning problems in simple, user-friendly functions. &lt;code&gt;clean_names()&lt;/code&gt; changes column names to &lt;code&gt;lower_snake_case&lt;/code&gt; with smart features for recognizing word breaks, changing symbols to words (% to &amp;ldquo;percent&amp;rdquo;), and more. &lt;code&gt;tabyl()&lt;/code&gt; is an improvement on &lt;code&gt;base::table()&lt;/code&gt;, a function for reporting frequency counts and percentages, with options for missing values. &lt;code&gt;get_dupes()&lt;/code&gt; and &lt;code&gt;remove_empty()&lt;/code&gt; are useful helpers for duplicated or empty rows and columns.&lt;/p&gt;
+&lt;p&gt;A great &lt;a href=&#34;https://albert-rapp.de/post/2022-01-12-janitor-showcase/&#34; target=&#34;_blank&#34;&gt;post&lt;/a&gt; by Albert Rapp goes into more detail with examples.&lt;/p&gt;
+&lt;p&gt;Find &lt;code&gt;janitor&lt;/code&gt; &lt;a href=&#34;https://cran.csail.mit.edu/web/packages/janitor/index.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; and documentation &lt;a href=&#34;https://www.rdocumentation.org/packages/janitor/versions/2.1.0&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;These packages, particularly &lt;code&gt;modelsummary&lt;/code&gt;, include functions that are not only for EDA. For the purposes of this post, I focus exclusively on functionality for EDA.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;It genuinely feels like cheating the process. I delay teaching it to new analysts because learning &lt;code&gt;dplyr&lt;/code&gt; motions like &lt;code&gt;group_by() %&amp;gt;% summarize()&lt;/code&gt; to understand data are fundamental.&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description> 
+    </item>
+    
+    <item>
+      <title>Stata&#39;s Best Document Publishing System, Texdoc</title>
+      <link>https://lukedimartino.com/post/2022-03-27-stata-s-best-document-publishing-system-texdoc/</link>
+      <pubDate>Sun, 27 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lukedimartino.com/post/2022-03-27-stata-s-best-document-publishing-system-texdoc/</guid>
+      <description>&lt;p&gt;For better or worse, Stata is the default data analysis tool in economics.&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; Its success is built on broad support for statistical models, easy syntax, and a straightforward workflow. For economics coursework, Stata excels.&lt;/p&gt;
+&lt;p&gt;Stata&amp;rsquo;s Achilles&amp;rsquo; heel is its inflexibility. If Statacorp does not deem a use case worthy, it is at best inconvenient to bend the language to your needs. At worst, it is impossible. This means that Stata is slow to introduce standard features of modern languages.&lt;/p&gt;
+&lt;p&gt;A glaring omission is the lack of a notebook document publication tool. RMarkdown and Jupyter Notebook, two community-built tools for R and Python, have grown massively in the past five years. It is difficult to imagine a developing a modern, data science–focused programming language without a robust system for document publication. &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;This is an important use case and one I encounter frequently as an undergraduate writing problem sets and short papers. Of course, many languages including Stata can output figures and tables into their own &lt;code&gt;.tex&lt;/code&gt; files, but the overhead costs of with file management and custom tables and the lack of easy code and output formatting makes that solution not worthwhile.&lt;/p&gt;
+&lt;p&gt;The workarounds this problem are tedious and would make any data scientist shiver. There&amp;rsquo;s the good: exporting tables to LaTeX using &lt;code&gt;estout&lt;/code&gt; or &lt;code&gt;outreg2&lt;/code&gt;; the bad: copying and pasting the text output into Word using a fixed-width font; and the ugly: screenshotting the Stata output window and inserting the picture into Word.&lt;/p&gt;
+&lt;p&gt;I have yet to see any professor use &lt;a href=&#34;http://repec.sowi.unibe.ch/stata/texdoc/&#34; target=&#34;_blank&#34;&gt;Texdoc&lt;/a&gt;, a LaTeX-integrated, notebook publishing package for Stata written by &lt;a href=&#34;https://www.soz.unibe.ch/about_us/people/prof_dr_jann_ben/index_eng.html&#34; target=&#34;_blank&#34;&gt;Ben Jann&lt;/a&gt;, the creator of &lt;code&gt;estout&lt;/code&gt;. This post introduces &lt;code&gt;texdoc&lt;/code&gt;, its workflow, and some experiences of my own with the package.&lt;/p&gt;
+&lt;h3 id=&#34;texdoc-basics&#34;&gt;Texdoc Basics&lt;/h3&gt;
+&lt;p&gt;After installation, &lt;code&gt;texdoc&lt;/code&gt; works out of a normal do-file. In addition to outputting results to the console, it produces a &lt;code&gt;.tex&lt;/code&gt; file that can be compiled with any LaTeX compiler.&lt;/p&gt;
+&lt;p&gt;Any given line will be one of three options:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Stata Code/Comments - &lt;code&gt;texdoc&lt;/code&gt; does not interrupt Stata code and comments, so files meant for &lt;code&gt;texdoc&lt;/code&gt; can still be executed just like normal, producing the same output. &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;texdoc&lt;/code&gt; Code - Lines beginning with &lt;code&gt;texdoc&lt;/code&gt; tell the program what to print, what to execute in the background, how to display graphs, and more.&lt;/li&gt;
+&lt;li&gt;LaTeX Code - Code marked off by &lt;code&gt;/***&lt;/code&gt; and &lt;code&gt;***/&lt;/code&gt; will be inserted as LaTeX code into the &lt;code&gt;.tex&lt;/code&gt; file. &lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+&lt;p&gt;I&amp;rsquo;ll demonstrate with the auto dataset. Here&amp;rsquo;s a trivial do-file:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sysuse auto
+sum mpg
+hist mpg
+reg mpg weight
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;First, &lt;code&gt;texdoc&lt;/code&gt; must be initialized. When &lt;code&gt;texdoc&lt;/code&gt; is called, this line tells it to create a &lt;code&gt;.tex&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;Prepend the do-file with this line.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;texdoc init auto-analysis.tex, replace
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;texdoc&lt;/code&gt; outputs a LaTeX file. For short documents, I keep all code in the do-file for easy editing.&lt;/p&gt;
+&lt;p&gt;After that line, LaTeX will need a preamble:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/***
+\documentclass{article}
+
+\usepackage{amsmath, amssymb}
+\usepackage{stata}
+\usepackage{graphicx}
+
+\title{Texdoc Auto Analysis Example}
+\author{Luke DiMartino}
+
+\begin{document}
+\maketitle
+***/
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;stata&lt;/code&gt; package is required for the &lt;code&gt;texdoc&lt;/code&gt; sections to be compiled, and the &lt;code&gt;graphicx&lt;/code&gt; package is required to include graphs.&lt;/p&gt;
+&lt;p&gt;And append the closing LaTeX code to the end of the document.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/***
+\end{document}
+***/
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I have already named this analysis and will be discussing the data in the document, so nobody needs to see the first line of Stata code loading the data, but, I would like to display the summary of the &lt;code&gt;mpg&lt;/code&gt; variable and the histogram.&lt;/p&gt;
+&lt;p&gt;To display code, surround it with &lt;code&gt;texdoc stlog&lt;/code&gt; and &lt;code&gt;texdoc stlog close&lt;/code&gt;.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;texdoc stlog
+sum mpg
+texdoc stlog close
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Next, I want to display the histogram. To display a graph, use &lt;code&gt;texdoc graph, optargs(width=0.6\textwidth)&lt;/code&gt; after &lt;code&gt;texdoc stlog close&lt;/code&gt;. &lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sysuse auto
+texdoc stlog
+sum mpg
+hist mpg
+texdoc stlog close
+texdoc graph, optargs(width=0.6\textwidth)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Next, I&amp;rsquo;ll add the regression along with a model equation:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;texdoc stlog
+reg mpg weight
+texdoc stlog close
+/***
+The regression equation is:
+\begin{equation}
+	\text{MPG}_i = \beta_0 + \beta_1 \text{Weight}_i + \varepsilon_i
+.\end{equation}
+***/
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And that&amp;rsquo;s it! Call &lt;code&gt;texdoc do your_do_file.do&lt;/code&gt; from Stata&amp;rsquo;s console and the &lt;code&gt;.tex&lt;/code&gt; file will be built. Every section and graph gets its own document, then texdoc includes them each in the main file. Ensure &lt;code&gt;stata.sty&lt;/code&gt; is in your directory and use your LaTeX editor/compiler to compile the finished document.&lt;/p&gt;
+&lt;h3 id=&#34;script&#34;&gt;Script&lt;/h3&gt;
+&lt;p&gt;Here is the full script, only missing the document preamble:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;texdoc init auto-analysis.tex, replace
+/***
+--document preamble--
+***/
+sysuse auto
+texdoc stlog
+sum mpg
+hist mpg
+texdoc stlog close
+texdoc graph, optargs(width=0.6\textwidth)
+texdoc stlog
+reg mpg weight
+texdoc stlog close
+/***
+The regression equation is:
+\begin{equation}
+	\text{MPG}_i = \beta_0 + \beta_1 \text{Weight}_i + \varepsilon_i
+.\end{equation}
+
+\end{document}
+***/
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;document-management&#34;&gt;Document Management&lt;/h3&gt;
+&lt;p&gt;Of course, you may edit the &lt;code&gt;.tex&lt;/code&gt; file with your LaTeX editor after compiling, but I prefer editing anything, including the &lt;code&gt;.tex&lt;/code&gt; code, in the do-file. If you re-call &lt;code&gt;texdoc do&lt;/code&gt;, it overwrites the &lt;code&gt;.tex&lt;/code&gt; file it creates, meaning any changes you have made in that file get overwritten.&lt;/p&gt;
+&lt;p&gt;For longer documents (or group work), let texdoc compile to sections of LaTeX code. Produce &lt;code&gt;hw1_1.tex&lt;/code&gt; and &lt;code&gt;hw1_2.tex&lt;/code&gt;, then create a LaTeX file and add &lt;code&gt;\include{hw1_1.tex}&lt;/code&gt; and combine sections.&lt;/p&gt;
+&lt;p&gt;Those files could be &lt;code&gt;texdoc&lt;/code&gt; output or LaTeX typesetting. For longer papers, I keep a spare document of work that I can copy and paste from so that I can use my preferred LaTeX editor (Vim) for typesetting.&lt;/p&gt;
+&lt;h3 id=&#34;cleaning-ugly-output&#34;&gt;Cleaning Ugly Output&lt;/h3&gt;
+&lt;p&gt;Stata&amp;rsquo;s output is occasionally quite ugly. For example, it prints a line for every iteration of log-likelihood optimization when fitting ARIMA models. Use &lt;code&gt;outreg2&lt;/code&gt;, &lt;code&gt;esttab&lt;/code&gt;, or the regression table package of your choice; output the table to a &lt;code&gt;.tex&lt;/code&gt; file; then add this below that regression table in the do-file so that LaTeX adds the table.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/***
+\include{this_reg_table.tex}
+***/
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;I cringe at the mention of Stata on the same site as data science, but here we are.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;Case in point: &lt;a href=&#34;https://julialang.org/&#34; target=&#34;_blank&#34;&gt;Julia&lt;/a&gt;, the new kid on the block of high-level, data science–focused programming languages, has &lt;a href=&#34;https://julialang.github.io/IJulia.jl/dev/&#34; target=&#34;_blank&#34;&gt;IJulia&lt;/a&gt; to integrate into Jupyter Notebook.&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;This is an advantage over &lt;code&gt;dyndoc&lt;/code&gt;, another Stata publishing format that requires writing HTML in the do-file. That code prevents the user from executing the file normally to see code results like regression outputs.&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;Of course, since Stata reads these as comments, they are ignored when executing the file normally.&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
+&lt;p&gt;There are other graphing options that are more complex.&amp;#160;&lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description> 
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://lukedimartino.com/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://lukedimartino.com/about/</guid>
+      <description>&lt;p&gt;My name is Luke DiMartino, I&amp;rsquo;m a senior at Georgetown University majoring in Economics and minoring in Statistics and Government. I&amp;rsquo;m interested in industrial organization/antitrust economics, econometrics, and baseball statistics. I&amp;rsquo;m from the San Francisco Bay Area and I currently live in Washington, DC.&lt;/p&gt;
+&lt;p&gt;Outside of classes, I lead the sabermetric analysis team for Georgetown Baseball Analytics. I oversee sabermetric analysts conducting statistical analysis of all dimensions of the game. I assist analysts on technical issues, build technical tools, and directly manage our databases. I also work on recruiting analysis.&lt;/p&gt;
+&lt;p&gt;I have also remotely coached and judged high-school debaters from California in various capacities during the pandemic, an activity I deeply enjoyed but reluctantly give up as it slowly returns to in-person.&lt;/p&gt;
+&lt;p&gt;In my free time, I cook Italian food, run with the Georgetown Running Club, and follow soccer (GGMU!).&lt;/p&gt;
+</description> 
+    </item>
+    
+    <item>
+      <title>Contact</title>
+      <link>https://lukedimartino.com/contact/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://lukedimartino.com/contact/</guid>
+      <description>&lt;p&gt;You can reach me by Email at &lt;em&gt;email[at]example.com&lt;/em&gt;&lt;/p&gt;
+</description> 
+    </item>
+    
+    <item>
+      <title>Projects</title>
+      <link>https://lukedimartino.com/projects/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://lukedimartino.com/projects/</guid>
+      <description>&lt;h2 id=&#34;metropolitan-police-department-stop-data-tool&#34;&gt;Metropolitan Police Department Stop Data Tool&lt;/h2&gt;
+&lt;p&gt;The Metropolitan Police Department (MPD) began releasing data after a series of lawsuits filed by ACLU-DC, Black Lives Matter DC, and Stop Police Terror Project DC. The data record logistical information, subject demographic information, frisking actions, and tickets and arrests at each stop made by a MPD officer. Coincidentally, these data are difficult to compile and messy. They are stored in multiple CSV files on MPD&amp;rsquo;s website and the data are riddled with arbitrary special characters, inconsistencies, and varying style.&lt;/p&gt;
+&lt;p&gt;I developed and maintain a package, &lt;a href=&#34;https://github.com/ldimartin0/metropdcleanR&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;metropdcleanR&lt;/code&gt;&lt;/a&gt;, that roughly acts as an API for MPD&amp;rsquo;s data and contains functions to clean it for analysis. The package also stores the cleaned data for direct import.&lt;/p&gt;
+&lt;h2 id=&#34;econometrics-in-r&#34;&gt;Econometrics in R&lt;/h2&gt;
+&lt;p&gt;Like most undergrads, I learned econometrics, particularly modelling, in Stata. Stata&amp;rsquo;s unified syntax and documentation make learning new tools and extending prior ones to more complex cases easy. R&amp;rsquo;s community-driven tools have the opposite effect. There are multiple packages for every statistical model, each with its own methods, abstractions, and syntax. While high-quality specialized resources exist, general introductory and intermediate econometric textbooks are some combination of outdated or intentionally limited to base tools. That is adequate for introductory work, but since base R does not suffice for more complex models (unlike Stata, which scales up directly), it does not prepare learners well. That is all not to mention that R was not built by econometricians and makes some peculiar design choices.&lt;/p&gt;
+&lt;p&gt;I surveyed resources, mostly recommended by professional economists, to find great packages and resources for the simpler models I learned in econometrics (OLS, dif-in-dif, AR(p), unidimensional fixed effects, etc.) that contain functionality for more nuanced tasks, and compiled what I learned into what amounts to a &lt;a href=&#34;https://github.com/ldimartin0/econometrics-in-r&#34; target=&#34;_blank&#34;&gt;guide&lt;/a&gt; for modern econometrics in R.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Work in progress!&lt;/em&gt;&lt;/p&gt;
+</description> 
+    </item>
+    
+  </channel>
+</rss>

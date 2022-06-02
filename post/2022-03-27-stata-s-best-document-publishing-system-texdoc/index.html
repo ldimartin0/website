@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Stata&#39;s Best Document Publishing System, Texdoc · Luke DiMartino</title>
+
+
+
+<link rel="stylesheet" href="/css/rocinante.css" />
+
+
+
+<body>
+    <header><h2>
+  
+    <a href="https://lukedimartino.com">‹ Luke DiMartino</a>
+  
+</h2>
+
+</header>
+    <main>
+
+    <div class="post">
+        <div class="title-group">
+            <div class="title">
+                <h1>Stata&#39;s Best Document Publishing System, Texdoc</h1>
+            </div>
+            <div class="date"><h5>Mar 27, 2022</h5></div>
+        </div>
+        <article class="content">
+            <p>For better or worse, Stata is the default data analysis tool in economics.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> Its success is built on broad support for statistical models, easy syntax, and a straightforward workflow. For economics coursework, Stata excels.</p>
+<p>Stata&rsquo;s Achilles&rsquo; heel is its inflexibility. If Statacorp does not deem a use case worthy, it is at best inconvenient to bend the language to your needs. At worst, it is impossible. This means that Stata is slow to introduce standard features of modern languages.</p>
+<p>A glaring omission is the lack of a notebook document publication tool. RMarkdown and Jupyter Notebook, two community-built tools for R and Python, have grown massively in the past five years. It is difficult to imagine a developing a modern, data science–focused programming language without a robust system for document publication. <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>This is an important use case and one I encounter frequently as an undergraduate writing problem sets and short papers. Of course, many languages including Stata can output figures and tables into their own <code>.tex</code> files, but the overhead costs of with file management and custom tables and the lack of easy code and output formatting makes that solution not worthwhile.</p>
+<p>The workarounds this problem are tedious and would make any data scientist shiver. There&rsquo;s the good: exporting tables to LaTeX using <code>estout</code> or <code>outreg2</code>; the bad: copying and pasting the text output into Word using a fixed-width font; and the ugly: screenshotting the Stata output window and inserting the picture into Word.</p>
+<p>I have yet to see any professor use <a href="http://repec.sowi.unibe.ch/stata/texdoc/" target="_blank">Texdoc</a>, a LaTeX-integrated, notebook publishing package for Stata written by <a href="https://www.soz.unibe.ch/about_us/people/prof_dr_jann_ben/index_eng.html" target="_blank">Ben Jann</a>, the creator of <code>estout</code>. This post introduces <code>texdoc</code>, its workflow, and some experiences of my own with the package.</p>
+<h3 id="texdoc-basics">Texdoc Basics</h3>
+<p>After installation, <code>texdoc</code> works out of a normal do-file. In addition to outputting results to the console, it produces a <code>.tex</code> file that can be compiled with any LaTeX compiler.</p>
+<p>Any given line will be one of three options:</p>
+<ol>
+<li>Stata Code/Comments - <code>texdoc</code> does not interrupt Stata code and comments, so files meant for <code>texdoc</code> can still be executed just like normal, producing the same output. <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></li>
+<li><code>texdoc</code> Code - Lines beginning with <code>texdoc</code> tell the program what to print, what to execute in the background, how to display graphs, and more.</li>
+<li>LaTeX Code - Code marked off by <code>/***</code> and <code>***/</code> will be inserted as LaTeX code into the <code>.tex</code> file. <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></li>
+</ol>
+<h3 id="example">Example</h3>
+<p>I&rsquo;ll demonstrate with the auto dataset. Here&rsquo;s a trivial do-file:</p>
+<pre tabindex="0"><code>sysuse auto
+sum mpg
+hist mpg
+reg mpg weight
+</code></pre><p>First, <code>texdoc</code> must be initialized. When <code>texdoc</code> is called, this line tells it to create a <code>.tex</code> file.</p>
+<p>Prepend the do-file with this line.</p>
+<pre tabindex="0"><code>texdoc init auto-analysis.tex, replace
+</code></pre><p><code>texdoc</code> outputs a LaTeX file. For short documents, I keep all code in the do-file for easy editing.</p>
+<p>After that line, LaTeX will need a preamble:</p>
+<pre tabindex="0"><code>/***
+\documentclass{article}
+
+\usepackage{amsmath, amssymb}
+\usepackage{stata}
+\usepackage{graphicx}
+
+\title{Texdoc Auto Analysis Example}
+\author{Luke DiMartino}
+
+\begin{document}
+\maketitle
+***/
+</code></pre><p>The <code>stata</code> package is required for the <code>texdoc</code> sections to be compiled, and the <code>graphicx</code> package is required to include graphs.</p>
+<p>And append the closing LaTeX code to the end of the document.</p>
+<pre tabindex="0"><code>/***
+\end{document}
+***/
+</code></pre><p>I have already named this analysis and will be discussing the data in the document, so nobody needs to see the first line of Stata code loading the data, but, I would like to display the summary of the <code>mpg</code> variable and the histogram.</p>
+<p>To display code, surround it with <code>texdoc stlog</code> and <code>texdoc stlog close</code>.</p>
+<pre tabindex="0"><code>texdoc stlog
+sum mpg
+texdoc stlog close
+</code></pre><p>Next, I want to display the histogram. To display a graph, use <code>texdoc graph, optargs(width=0.6\textwidth)</code> after <code>texdoc stlog close</code>. <sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
+<pre tabindex="0"><code>sysuse auto
+texdoc stlog
+sum mpg
+hist mpg
+texdoc stlog close
+texdoc graph, optargs(width=0.6\textwidth)
+</code></pre><p>Next, I&rsquo;ll add the regression along with a model equation:</p>
+<pre tabindex="0"><code>texdoc stlog
+reg mpg weight
+texdoc stlog close
+/***
+The regression equation is:
+\begin{equation}
+	\text{MPG}_i = \beta_0 + \beta_1 \text{Weight}_i + \varepsilon_i
+.\end{equation}
+***/
+</code></pre><p>And that&rsquo;s it! Call <code>texdoc do your_do_file.do</code> from Stata&rsquo;s console and the <code>.tex</code> file will be built. Every section and graph gets its own document, then texdoc includes them each in the main file. Ensure <code>stata.sty</code> is in your directory and use your LaTeX editor/compiler to compile the finished document.</p>
+<h3 id="script">Script</h3>
+<p>Here is the full script, only missing the document preamble:</p>
+<pre tabindex="0"><code>texdoc init auto-analysis.tex, replace
+/***
+--document preamble--
+***/
+sysuse auto
+texdoc stlog
+sum mpg
+hist mpg
+texdoc stlog close
+texdoc graph, optargs(width=0.6\textwidth)
+texdoc stlog
+reg mpg weight
+texdoc stlog close
+/***
+The regression equation is:
+\begin{equation}
+	\text{MPG}_i = \beta_0 + \beta_1 \text{Weight}_i + \varepsilon_i
+.\end{equation}
+
+\end{document}
+***/
+</code></pre><h3 id="document-management">Document Management</h3>
+<p>Of course, you may edit the <code>.tex</code> file with your LaTeX editor after compiling, but I prefer editing anything, including the <code>.tex</code> code, in the do-file. If you re-call <code>texdoc do</code>, it overwrites the <code>.tex</code> file it creates, meaning any changes you have made in that file get overwritten.</p>
+<p>For longer documents (or group work), let texdoc compile to sections of LaTeX code. Produce <code>hw1_1.tex</code> and <code>hw1_2.tex</code>, then create a LaTeX file and add <code>\include{hw1_1.tex}</code> and combine sections.</p>
+<p>Those files could be <code>texdoc</code> output or LaTeX typesetting. For longer papers, I keep a spare document of work that I can copy and paste from so that I can use my preferred LaTeX editor (Vim) for typesetting.</p>
+<h3 id="cleaning-ugly-output">Cleaning Ugly Output</h3>
+<p>Stata&rsquo;s output is occasionally quite ugly. For example, it prints a line for every iteration of log-likelihood optimization when fitting ARIMA models. Use <code>outreg2</code>, <code>esttab</code>, or the regression table package of your choice; output the table to a <code>.tex</code> file; then add this below that regression table in the do-file so that LaTeX adds the table.</p>
+<pre tabindex="0"><code>/***
+\include{this_reg_table.tex}
+***/
+</code></pre><div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>I cringe at the mention of Stata on the same site as data science, but here we are.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Case in point: <a href="https://julialang.org/" target="_blank">Julia</a>, the new kid on the block of high-level, data science–focused programming languages, has <a href="https://julialang.github.io/IJulia.jl/dev/" target="_blank">IJulia</a> to integrate into Jupyter Notebook.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>This is an advantage over <code>dyndoc</code>, another Stata publishing format that requires writing HTML in the do-file. That code prevents the user from executing the file normally to see code results like regression outputs.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Of course, since Stata reads these as comments, they are ignored when executing the file normally.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>There are other graphing options that are more complex.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+        </article>
+        
+            <div class="tags">
+                <span title="Tags">🏷</span>
+                <div class="horizontal-links links">
+                    <a href="/tags/stata/">Stata</a><a href="/tags/latex/">LaTeX</a><a href="/tags/reporting/">reporting</a>
+                </div>
+            </div>
+        
+    </article>
+
+
+    </main>
+    <footer>
+  <div class="content-container">
+    <div class="content"><p>Hi, I&rsquo;m <strong>Luke</strong>.</p>
+<p>I&rsquo;m a senior at Georgetown University studying Economics, Statistics, and Government. I&rsquo;m interested in industrial organization/antitrust economics, econometrics, and baseball statistics.</p>
+<p><strong><a href="/about">About</a></strong></p>
+<p><strong><a href="/projects">Projects</a></strong></p>
+
+
+
+  <p class="horizontal-links"><a href="/contact"
+       
+        class="email-hook" id="about-email" title="Click to show email" 
+      >Email</a><a href="https://github.com/ldimartin0"
+        target="_blank" 
+       
+      >GitHub</a><a href="https://twitter.com/luke_d1m"
+        target="_blank" 
+       
+      >Twitter</a><a href="https://www.linkedin.com/in/luke-dimartino-5171a1203/"
+        target="_blank" 
+       
+      >LinkedIn</a></p>
+
+</div>
+  </div>
+</footer>
+    
+    <script>
+      const emailId = atob("bHVrZS5kbnVAZ21haWwuY29t");
+    </script>
+    <script src="/js/rocinante.min.js"></script>
+  </body>
+</html>

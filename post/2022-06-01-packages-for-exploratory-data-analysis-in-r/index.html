@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Packages for Exploratory Data Analysis in R · Luke DiMartino</title>
+
+
+
+<link rel="stylesheet" href="/css/rocinante.css" />
+
+
+<link rel="shortcut icon" href="/icon/favicon.jpg">
+
+
+<body>
+    <header><h2>
+  
+    <a href="/">‹ Luke DiMartino</a>
+  
+</h2>
+</header>
+    <main>
+
+    <div class="post">
+        <div class="title-group">
+            <div class="title">
+                <h1>Packages for Exploratory Data Analysis in R</h1>
+            </div>
+            <div class="date"><h5>Apr 27, 2022</h5></div>
+        </div>
+        <article class="content">
+            <p>These are some of my favorite packages for EDA<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> outside of the <code>tidyverse</code> in R. Their functionality rarely reaches a paper, report, or production, but they are invaluable for understanding data. <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<h3 id="rio"><code>rio</code></h3>
+<p><code>rio</code> handles all file input/output needs with a simple, intuitive interface for popular functions from <code>haven</code>, <code>data.table</code>, and others for individual file types. <code>import()</code> and <code>export()</code> abstract from that complexity with intuitive defaults like not converting strings to factors. <code>import_list()</code> can get an entire directory of files into R easily.</p>
+<p>Find <code>rio</code> <a href="https://cran.r-project.org/web/packages/rio/index.html" target="_blank">here</a> and documentation <a href="https://www.rdocumentation.org/packages/rio/versions/0.5.29" target="_blank">here</a>.</p>
+<h3 id="paint"><code>paint</code></h3>
+<p><code>paint</code> supplies beautiful terminal print methods for data frames. Compare the following methods.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>library(paint)
+</span></span><span style="display:flex;"><span>library(dplyr)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>print(mtcars)
+</span></span></code></pre></div><pre tabindex="0"><code>##                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+## Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+## Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+## Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+## Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+## Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+## Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+## Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+## Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+## Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+## Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+## Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+## Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+## Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+## Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+## Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+## Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+## Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+## AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+## Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+## Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+## Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+## Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+## Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+## Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+## Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+## Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+## Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>print(head(mtcars))
+</span></span></code></pre></div><pre tabindex="0"><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>glimpse(mtcars)
+</span></span></code></pre></div><pre tabindex="0"><code>## Rows: 32
+## Columns: 11
+## $ mpg  &lt;dbl&gt; 21.0, 21.0, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8,…
+## $ cyl  &lt;dbl&gt; 6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8,…
+## $ disp &lt;dbl&gt; 160.0, 160.0, 108.0, 258.0, 360.0, 225.0, 360.0, 146.7, 140.8, 16…
+## $ hp   &lt;dbl&gt; 110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180…
+## $ drat &lt;dbl&gt; 3.90, 3.90, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92,…
+## $ wt   &lt;dbl&gt; 2.620, 2.875, 2.320, 3.215, 3.440, 3.460, 3.570, 3.190, 3.150, 3.…
+## $ qsec &lt;dbl&gt; 16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20.00, 22.90, 18…
+## $ vs   &lt;dbl&gt; 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0,…
+## $ am   &lt;dbl&gt; 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0,…
+## $ gear &lt;dbl&gt; 4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3,…
+## $ carb &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2,…
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>paint(mtcars)
+</span></span></code></pre></div><pre tabindex="0"><code>## data.frame [32, 11] 
+## mpg  dbl 21 21 22.8 21.4 18.7 18.1
+## cyl  dbl 6 6 4 6 8 6
+## disp dbl 160 160 108 258 360 225
+## hp   dbl 110 110 93 110 175 105
+## drat dbl 3.9 3.9 3.85 3.08 3.15 2.76
+## wt   dbl 2.62 2.875 2.32 3.215 3.44 3.46
+## qsec dbl 16.46 17.02 18.61 19.44 17.02 20.22
+## vs   dbl 0 0 1 1 0 1
+## am   dbl 1 1 1 0 0 0
+## gear dbl 4 4 4 3 3 3
+## carb dbl 4 4 1 1 2 1
+</code></pre><p><code>paint</code> can be set as the default print method or called independently. When set as default with <code>mask_print()</code>, it makes <code>head()</code>, <code>tail()</code>, and <code>sample()</code> much more readable. I use it as a default, so data frame outputs from other functions in this post are painted, not printed.</p>
+<p>For more details, watch <a href="https://www.youtube.com/watch?v=DZuVdECq168" target="_blank">this video</a> by Bruno Rodrigues.</p>
+<p>Find <code>paint</code> and documentation <a href="https://github.com/MilesMcBain/paint" target="_blank">here</a>.</p>
+<h3 id="dataexplorer"><code>DataExplorer</code></h3>
+<p><code>DataExlorer</code> produces simple preliminary reports of data structure.<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> <code>create_report()</code> knits an HTML document with statistics on dimensions, missing values (number in total, number by column, and number of complete rows), and column types. In addition, for each column it prints a histogram, QQ plot, correlation matrix, and conducts principal component analysis.</p>
+<p>Find <code>DataExplorer</code> <a href="https://cran.r-project.org/web/packages/DataExplorer/index.html" target="_blank">here</a> and documentation <a href="https://www.rdocumentation.org/packages/DataExplorer/versions/0.8.2" target="_blank">here</a>.</p>
+<h3 id="janitor"><code>janitor</code></h3>
+<p><code>janitor</code> solves the most general data cleaning problems in simple, user-friendly functions. <code>clean_names()</code> changes column names to <code>lower_snake_case</code> with smart features for recognizing word breaks, changing symbols to words (% to &ldquo;percent&rdquo;), and more. <code>tabyl()</code> is an improvement on <code>base::table()</code>, a function for reporting frequency counts and percentages, with options for missing values. <code>get_dupes()</code> and <code>remove_empty()</code> are useful helpers for duplicated or empty rows and columns.</p>
+<p>A great <a href="https://albert-rapp.de/post/2022-01-12-janitor-showcase/" target="_blank">post</a> by Albert Rapp goes into more detail with examples.</p>
+<p>Find <code>janitor</code> <a href="https://cran.csail.mit.edu/web/packages/janitor/index.html" target="_blank">here</a> and documentation <a href="https://www.rdocumentation.org/packages/janitor/versions/2.1.0" target="_blank">here</a>.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Exploratory data analysis; the process of analyzing data using numerical summaries and data visualizations, generally before hypothesis testing and modeling.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>These packages, particularly <code>modelsummary</code>, include functions that are not only for EDA. For the purposes of this post, I focus exclusively on functionality for EDA.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>It genuinely feels like cheating the process. I delay teaching it to new analysts because learning <code>dplyr</code> motions like <code>group_by() %&gt;% summarize()</code> to understand data are fundamental.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+        </article>
+        
+            <div class="tags">
+                <span title="Tags">🏷</span>
+                <div class="horizontal-links links">
+                    <a href="/tags/r/">R</a><a href="/tags/eda/">EDA</a><a href="/tags/packages/">packages</a>
+                </div>
+            </div>
+        
+    </article>
+
+
+    </main>
+    <footer>
+  <div class="content-container">
+    <div class="content"><p>Hi. I&rsquo;m <strong>Luke</strong>.</p>
+<p>I&rsquo;m a junior at Georgetown University studying Economics, Statistics, and Government. I&rsquo;m interested in industrial organization/antitrust economics, econometrics, and baseball statistics. I call the San Francisco Bay Area home.</p>
+<p>Outside of classes, I lead the sabermetric analysis team for Georgetown Baseball Analytics. I have coached and judged high-school debaters from California in various capacities during the pandemic, an activity I deeply enjoy but reluctantly wish could return to in-person.</p>
+<p>In my free time, I cook Italian food, run with Georgetown Running Club, and watch soccer (GGMU!).</p>
+
+
+
+  <p class="horizontal-links"><a href="/contact"
+       
+        class="email-hook" id="about-email" title="Click to show email" 
+      >Email</a><a href="https://github.com/ldimartin0"
+        target="_blank" 
+       
+      >GitHub</a><a href="https://twitter.com/luke_d1m"
+        target="_blank" 
+       
+      >Twitter</a><a href="https://www.linkedin.com/in/luke-dimartino-5171a1203/"
+        target="_blank" 
+       
+      >LinkedIn</a></p>
+
+</div>
+  </div>
+</footer>
+    
+    <script>
+      const emailId = atob("bHVrZS5kbnVAZ21haWwuY29t");
+    </script>
+    <script src="/js/rocinante.min.js"></script>
+  </body>
+</html>

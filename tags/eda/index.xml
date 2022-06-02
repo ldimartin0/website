@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>EDA on Luke DiMartino</title>
+    <link>https://lukedimartino.com/tags/eda/</link>
+    <description>Recent content in EDA on Luke DiMartino</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 17 Apr 2022 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lukedimartino.com/tags/eda/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Packages for Exploratory Data Analysis in R</title>
+      <link>https://lukedimartino.com/post/2022-04-17-packages-for-exploratory-data-analysis-in-r/</link>
+      <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lukedimartino.com/post/2022-04-17-packages-for-exploratory-data-analysis-in-r/</guid>
+      <description>&lt;p&gt;These are some of my favorite packages for exploratory data analysis outside of the &lt;code&gt;tidyverse&lt;/code&gt; in R. Their functionality rarely reaches a paper, report, or production, but they are invaluable for understanding data. &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;h3 id=&#34;rio&#34;&gt;&lt;code&gt;rio&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;rio&lt;/code&gt; handles all file input/output needs with a simple, intuitive interface for popular functions from &lt;code&gt;haven&lt;/code&gt;, &lt;code&gt;data.table&lt;/code&gt;, and others for individual file types. &lt;code&gt;import()&lt;/code&gt; and &lt;code&gt;export()&lt;/code&gt; abstract from that complexity with intuitive defaults like not converting strings to factors. &lt;code&gt;import_list()&lt;/code&gt; can get an entire directory of files into R easily.&lt;/p&gt;
+&lt;p&gt;Find &lt;code&gt;rio&lt;/code&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/rio/index.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; and documentation &lt;a href=&#34;https://www.rdocumentation.org/packages/rio/versions/0.5.29&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;paint&#34;&gt;&lt;code&gt;paint&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;paint&lt;/code&gt; supplies beautiful terminal print methods for data frames. Compare the following methods.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:2;-o-tab-size:2;tab-size:2;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;library&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;paint&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;library&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;dplyr&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:2;-o-tab-size:2;tab-size:2;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;print&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;mtcars&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;##                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+## Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+## Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+## Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+## Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+## Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+## Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+## Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+## Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+## Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+## Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+## Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+## Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+## Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+## Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+## Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+## Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+## Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+## AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+## Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+## Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+## Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+## Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+## Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+## Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+## Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+## Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+## Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:2;-o-tab-size:2;tab-size:2;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;print&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;head&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;mtcars&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:2;-o-tab-size:2;tab-size:2;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;glimpse&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;mtcars&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;## Rows: 32
+## Columns: 11
+## $ mpg  &amp;lt;dbl&amp;gt; 21.0, 21.0, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8,…
+## $ cyl  &amp;lt;dbl&amp;gt; 6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8,…
+## $ disp &amp;lt;dbl&amp;gt; 160.0, 160.0, 108.0, 258.0, 360.0, 225.0, 360.0, 146.7, 140.8, 16…
+## $ hp   &amp;lt;dbl&amp;gt; 110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180…
+## $ drat &amp;lt;dbl&amp;gt; 3.90, 3.90, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92,…
+## $ wt   &amp;lt;dbl&amp;gt; 2.620, 2.875, 2.320, 3.215, 3.440, 3.460, 3.570, 3.190, 3.150, 3.…
+## $ qsec &amp;lt;dbl&amp;gt; 16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20.00, 22.90, 18…
+## $ vs   &amp;lt;dbl&amp;gt; 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0,…
+## $ am   &amp;lt;dbl&amp;gt; 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0,…
+## $ gear &amp;lt;dbl&amp;gt; 4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3,…
+## $ carb &amp;lt;dbl&amp;gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2,…
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:2;-o-tab-size:2;tab-size:2;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75af00&#34;&gt;paint&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;mtcars&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;## data.frame [32, 11] 
+## mpg  dbl 21 21 22.8 21.4 18.7 18.1
+## cyl  dbl 6 6 4 6 8 6
+## disp dbl 160 160 108 258 360 225
+## hp   dbl 110 110 93 110 175 105
+## drat dbl 3.9 3.9 3.85 3.08 3.15 2.76
+## wt   dbl 2.62 2.875 2.32 3.215 3.44 3.46
+## qsec dbl 16.46 17.02 18.61 19.44 17.02 20.22
+## vs   dbl 0 0 1 1 0 1
+## am   dbl 1 1 1 0 0 0
+## gear dbl 4 4 4 3 3 3
+## carb dbl 4 4 1 1 2 1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;paint&lt;/code&gt; print cleanly and exploits text color in the terminal, Hugo won&amp;rsquo;t render in the browser. So the output I see in my terminal is:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;images/paint.png&#34; alt=&#34;paint terminal output&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;paint&lt;/code&gt; can be set as the default print method or called independently. When set as default with &lt;code&gt;mask_print()&lt;/code&gt;, it makes &lt;code&gt;head()&lt;/code&gt;, &lt;code&gt;tail()&lt;/code&gt;, and &lt;code&gt;sample()&lt;/code&gt; much more readable. I use it as a default, so data frame outputs from other functions in this post are painted, not printed.&lt;/p&gt;
+&lt;p&gt;For more details, watch &lt;a href=&#34;https://www.youtube.com/watch?v=DZuVdECq168&#34; target=&#34;_blank&#34;&gt;this video&lt;/a&gt; by Bruno Rodrigues.&lt;/p&gt;
+&lt;p&gt;Find &lt;code&gt;paint&lt;/code&gt; and documentation &lt;a href=&#34;https://github.com/MilesMcBain/paint&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;dataexplorer&#34;&gt;&lt;code&gt;DataExplorer&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;DataExlorer&lt;/code&gt; produces simple preliminary reports of data structure.&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;code&gt;create_report()&lt;/code&gt; knits an HTML document with statistics on dimensions, missing values (number in total, number by column, and number of complete rows), and column types. In addition, for each column it prints a histogram, QQ plot, correlation matrix, and conducts principal component analysis.&lt;/p&gt;
+&lt;p&gt;Find &lt;code&gt;DataExplorer&lt;/code&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/DataExplorer/index.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; and documentation &lt;a href=&#34;https://www.rdocumentation.org/packages/DataExplorer/versions/0.8.2&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;janitor&#34;&gt;&lt;code&gt;janitor&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;janitor&lt;/code&gt; solves the most general data cleaning problems in simple, user-friendly functions. &lt;code&gt;clean_names()&lt;/code&gt; changes column names to &lt;code&gt;lower_snake_case&lt;/code&gt; with smart features for recognizing word breaks, changing symbols to words (% to &amp;ldquo;percent&amp;rdquo;), and more. &lt;code&gt;tabyl()&lt;/code&gt; is an improvement on &lt;code&gt;base::table()&lt;/code&gt;, a function for reporting frequency counts and percentages, with options for missing values. &lt;code&gt;get_dupes()&lt;/code&gt; and &lt;code&gt;remove_empty()&lt;/code&gt; are useful helpers for duplicated or empty rows and columns.&lt;/p&gt;
+&lt;p&gt;A great &lt;a href=&#34;https://albert-rapp.de/post/2022-01-12-janitor-showcase/&#34; target=&#34;_blank&#34;&gt;post&lt;/a&gt; by Albert Rapp goes into more detail with examples.&lt;/p&gt;
+&lt;p&gt;Find &lt;code&gt;janitor&lt;/code&gt; &lt;a href=&#34;https://cran.csail.mit.edu/web/packages/janitor/index.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; and documentation &lt;a href=&#34;https://www.rdocumentation.org/packages/janitor/versions/2.1.0&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;These packages, particularly &lt;code&gt;modelsummary&lt;/code&gt;, include functions that are not only for EDA. For the purposes of this post, I focus exclusively on functionality for EDA.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;It genuinely feels like cheating the process. I delay teaching it to new analysts because learning &lt;code&gt;dplyr&lt;/code&gt; motions like &lt;code&gt;group_by() %&amp;gt;% summarize()&lt;/code&gt; to understand data are fundamental.&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description> 
+    </item>
+    
+  </channel>
+</rss>

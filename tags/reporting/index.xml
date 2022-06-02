@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>reporting on Luke DiMartino</title>
+    <link>https://lukedimartino.com/tags/reporting/</link>
+    <description>Recent content in reporting on Luke DiMartino</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 27 Mar 2022 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lukedimartino.com/tags/reporting/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Stata&#39;s Best Document Publishing System, Texdoc</title>
+      <link>https://lukedimartino.com/post/2022-03-27-stata-s-best-document-publishing-system-texdoc/</link>
+      <pubDate>Sun, 27 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lukedimartino.com/post/2022-03-27-stata-s-best-document-publishing-system-texdoc/</guid>
+      <description>&lt;p&gt;For better or worse, Stata is the default data analysis tool in economics.&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; Its success is built on broad support for statistical models, easy syntax, and a straightforward workflow. For economics coursework, Stata excels.&lt;/p&gt;
+&lt;p&gt;Stata&amp;rsquo;s Achilles&amp;rsquo; heel is its inflexibility. If Statacorp does not deem a use case worthy, it is at best inconvenient to bend the language to your needs. At worst, it is impossible. This means that Stata is slow to introduce standard features of modern languages.&lt;/p&gt;
+&lt;p&gt;A glaring omission is the lack of a notebook document publication tool. RMarkdown and Jupyter Notebook, two community-built tools for R and Python, have grown massively in the past five years. It is difficult to imagine a developing a modern, data science–focused programming language without a robust system for document publication. &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;This is an important use case and one I encounter frequently as an undergraduate writing problem sets and short papers. Of course, many languages including Stata can output figures and tables into their own &lt;code&gt;.tex&lt;/code&gt; files, but the overhead costs of with file management and custom tables and the lack of easy code and output formatting makes that solution not worthwhile.&lt;/p&gt;
+&lt;p&gt;The workarounds this problem are tedious and would make any data scientist shiver. There&amp;rsquo;s the good: exporting tables to LaTeX using &lt;code&gt;estout&lt;/code&gt; or &lt;code&gt;outreg2&lt;/code&gt;; the bad: copying and pasting the text output into Word using a fixed-width font; and the ugly: screenshotting the Stata output window and inserting the picture into Word.&lt;/p&gt;
+&lt;p&gt;I have yet to see any professor use &lt;a href=&#34;http://repec.sowi.unibe.ch/stata/texdoc/&#34; target=&#34;_blank&#34;&gt;Texdoc&lt;/a&gt;, a LaTeX-integrated, notebook publishing package for Stata written by &lt;a href=&#34;https://www.soz.unibe.ch/about_us/people/prof_dr_jann_ben/index_eng.html&#34; target=&#34;_blank&#34;&gt;Ben Jann&lt;/a&gt;, the creator of &lt;code&gt;estout&lt;/code&gt;. This post introduces &lt;code&gt;texdoc&lt;/code&gt;, its workflow, and some experiences of my own with the package.&lt;/p&gt;
+&lt;h3 id=&#34;texdoc-basics&#34;&gt;Texdoc Basics&lt;/h3&gt;
+&lt;p&gt;After installation, &lt;code&gt;texdoc&lt;/code&gt; works out of a normal do-file. In addition to outputting results to the console, it produces a &lt;code&gt;.tex&lt;/code&gt; file that can be compiled with any LaTeX compiler.&lt;/p&gt;
+&lt;p&gt;Any given line will be one of three options:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Stata Code/Comments - &lt;code&gt;texdoc&lt;/code&gt; does not interrupt Stata code and comments, so files meant for &lt;code&gt;texdoc&lt;/code&gt; can still be executed just like normal, producing the same output. &lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;texdoc&lt;/code&gt; Code - Lines beginning with &lt;code&gt;texdoc&lt;/code&gt; tell the program what to print, what to execute in the background, how to display graphs, and more.&lt;/li&gt;
+&lt;li&gt;LaTeX Code - Code marked off by &lt;code&gt;/***&lt;/code&gt; and &lt;code&gt;***/&lt;/code&gt; will be inserted as LaTeX code into the &lt;code&gt;.tex&lt;/code&gt; file. &lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+&lt;p&gt;I&amp;rsquo;ll demonstrate with the auto dataset. Here&amp;rsquo;s a trivial do-file:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sysuse auto
+sum mpg
+hist mpg
+reg mpg weight
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;First, &lt;code&gt;texdoc&lt;/code&gt; must be initialized. When &lt;code&gt;texdoc&lt;/code&gt; is called, this line tells it to create a &lt;code&gt;.tex&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;Prepend the do-file with this line.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;texdoc init auto-analysis.tex, replace
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;texdoc&lt;/code&gt; outputs a LaTeX file. For short documents, I keep all code in the do-file for easy editing.&lt;/p&gt;
+&lt;p&gt;After that line, LaTeX will need a preamble:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/***
+\documentclass{article}
+
+\usepackage{amsmath, amssymb}
+\usepackage{stata}
+\usepackage{graphicx}
+
+\title{Texdoc Auto Analysis Example}
+\author{Luke DiMartino}
+
+\begin{document}
+\maketitle
+***/
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;stata&lt;/code&gt; package is required for the &lt;code&gt;texdoc&lt;/code&gt; sections to be compiled, and the &lt;code&gt;graphicx&lt;/code&gt; package is required to include graphs.&lt;/p&gt;
+&lt;p&gt;And append the closing LaTeX code to the end of the document.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/***
+\end{document}
+***/
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I have already named this analysis and will be discussing the data in the document, so nobody needs to see the first line of Stata code loading the data, but, I would like to display the summary of the &lt;code&gt;mpg&lt;/code&gt; variable and the histogram.&lt;/p&gt;
+&lt;p&gt;To display code, surround it with &lt;code&gt;texdoc stlog&lt;/code&gt; and &lt;code&gt;texdoc stlog close&lt;/code&gt;.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;texdoc stlog
+sum mpg
+texdoc stlog close
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Next, I want to display the histogram. To display a graph, use &lt;code&gt;texdoc graph, optargs(width=0.6\textwidth)&lt;/code&gt; after &lt;code&gt;texdoc stlog close&lt;/code&gt;. &lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sysuse auto
+texdoc stlog
+sum mpg
+hist mpg
+texdoc stlog close
+texdoc graph, optargs(width=0.6\textwidth)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Next, I&amp;rsquo;ll add the regression along with a model equation:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;texdoc stlog
+reg mpg weight
+texdoc stlog close
+/***
+The regression equation is:
+\begin{equation}
+	\text{MPG}_i = \beta_0 + \beta_1 \text{Weight}_i + \varepsilon_i
+.\end{equation}
+***/
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And that&amp;rsquo;s it! Call &lt;code&gt;texdoc do your_do_file.do&lt;/code&gt; from Stata&amp;rsquo;s console and the &lt;code&gt;.tex&lt;/code&gt; file will be built. Every section and graph gets its own document, then texdoc includes them each in the main file. Ensure &lt;code&gt;stata.sty&lt;/code&gt; is in your directory and use your LaTeX editor/compiler to compile the finished document.&lt;/p&gt;
+&lt;h3 id=&#34;script&#34;&gt;Script&lt;/h3&gt;
+&lt;p&gt;Here is the full script, only missing the document preamble:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;texdoc init auto-analysis.tex, replace
+/***
+--document preamble--
+***/
+sysuse auto
+texdoc stlog
+sum mpg
+hist mpg
+texdoc stlog close
+texdoc graph, optargs(width=0.6\textwidth)
+texdoc stlog
+reg mpg weight
+texdoc stlog close
+/***
+The regression equation is:
+\begin{equation}
+	\text{MPG}_i = \beta_0 + \beta_1 \text{Weight}_i + \varepsilon_i
+.\end{equation}
+
+\end{document}
+***/
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;document-management&#34;&gt;Document Management&lt;/h3&gt;
+&lt;p&gt;Of course, you may edit the &lt;code&gt;.tex&lt;/code&gt; file with your LaTeX editor after compiling, but I prefer editing anything, including the &lt;code&gt;.tex&lt;/code&gt; code, in the do-file. If you re-call &lt;code&gt;texdoc do&lt;/code&gt;, it overwrites the &lt;code&gt;.tex&lt;/code&gt; file it creates, meaning any changes you have made in that file get overwritten.&lt;/p&gt;
+&lt;p&gt;For longer documents (or group work), let texdoc compile to sections of LaTeX code. Produce &lt;code&gt;hw1_1.tex&lt;/code&gt; and &lt;code&gt;hw1_2.tex&lt;/code&gt;, then create a LaTeX file and add &lt;code&gt;\include{hw1_1.tex}&lt;/code&gt; and combine sections.&lt;/p&gt;
+&lt;p&gt;Those files could be &lt;code&gt;texdoc&lt;/code&gt; output or LaTeX typesetting. For longer papers, I keep a spare document of work that I can copy and paste from so that I can use my preferred LaTeX editor (Vim) for typesetting.&lt;/p&gt;
+&lt;h3 id=&#34;cleaning-ugly-output&#34;&gt;Cleaning Ugly Output&lt;/h3&gt;
+&lt;p&gt;Stata&amp;rsquo;s output is occasionally quite ugly. For example, it prints a line for every iteration of log-likelihood optimization when fitting ARIMA models. Use &lt;code&gt;outreg2&lt;/code&gt;, &lt;code&gt;esttab&lt;/code&gt;, or the regression table package of your choice; output the table to a &lt;code&gt;.tex&lt;/code&gt; file; then add this below that regression table in the do-file so that LaTeX adds the table.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/***
+\include{this_reg_table.tex}
+***/
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;I cringe at the mention of Stata on the same site as data science, but here we are.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;Case in point: &lt;a href=&#34;https://julialang.org/&#34; target=&#34;_blank&#34;&gt;Julia&lt;/a&gt;, the new kid on the block of high-level, data science–focused programming languages, has &lt;a href=&#34;https://julialang.github.io/IJulia.jl/dev/&#34; target=&#34;_blank&#34;&gt;IJulia&lt;/a&gt; to integrate into Jupyter Notebook.&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;This is an advantage over &lt;code&gt;dyndoc&lt;/code&gt;, another Stata publishing format that requires writing HTML in the do-file. That code prevents the user from executing the file normally to see code results like regression outputs.&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;Of course, since Stata reads these as comments, they are ignored when executing the file normally.&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
+&lt;p&gt;There are other graphing options that are more complex.&amp;#160;&lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description> 
+    </item>
+    
+  </channel>
+</rss>

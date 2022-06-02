@@ -1,0 +1,68 @@
+---
+title: Packages for Exploratory Data Analysis in R
+author: Luke DiMartino
+date: '2022-04-27'
+slug: []
+categories:
+  - R
+tags:
+  - R
+  - EDA
+  - packages
+---
+
+These are some of my favorite packages for EDA[^eda] outside of the `tidyverse` in R. Their functionality rarely reaches a paper, report, or production, but they are invaluable for understanding data. [^modelsummary]
+
+[^eda]: Exploratory data analysis; the process of analyzing data using numerical summaries and data visualizations, generally before hypothesis testing and modeling.
+
+[^modelsummary]: These packages, particularly `modelsummary`, include functions that are not only for EDA. For the purposes of this post, I focus exclusively on functionality for EDA.
+
+### `rio`
+`rio` handles all file input/output needs with a simple, intuitive interface for popular functions from `haven`, `data.table`, and others for individual file types. `import()` and `export()` abstract from that complexity with intuitive defaults like not converting strings to factors. `import_list()` can get an entire directory of files into R easily.
+
+Find `rio` [here](https://cran.r-project.org/web/packages/rio/index.html) and documentation [here](https://www.rdocumentation.org/packages/rio/versions/0.5.29).
+
+### `paint`
+`paint` supplies beautiful terminal print methods for data frames. Compare the following methods.
+
+```{r, warning = FALSE, message = FALSE}
+library(paint)
+library(dplyr)
+```
+
+
+```{r}
+print(mtcars)
+```
+
+```{r}
+print(head(mtcars))
+```
+
+```{r}
+glimpse(mtcars)
+```
+
+```{r}
+paint(mtcars)
+```
+
+`paint` can be set as the default print method or called independently. When set as default with `mask_print()`, it makes `head()`, `tail()`, and `sample()` much more readable. I use it as a default, so data frame outputs from other functions in this post are painted, not printed.
+
+For more details, watch [this video](https://www.youtube.com/watch?v=DZuVdECq168) by Bruno Rodrigues.
+
+Find `paint` and documentation [here](https://github.com/MilesMcBain/paint).
+
+### `DataExplorer`
+`DataExlorer` produces simple preliminary reports of data structure.[^cheating] `create_report()` knits an HTML document with statistics on dimensions, missing values (number in total, number by column, and number of complete rows), and column types. In addition, for each column it prints a histogram, QQ plot, correlation matrix, and conducts principal component analysis.
+
+[^cheating]: It genuinely feels like cheating the process. I delay teaching it to new analysts because learning `dplyr` motions like `group_by() %>% summarize()` to understand data are fundamental.
+
+Find `DataExplorer` [here](https://cran.r-project.org/web/packages/DataExplorer/index.html) and documentation [here](https://www.rdocumentation.org/packages/DataExplorer/versions/0.8.2).
+
+### `janitor`
+`janitor` solves the most general data cleaning problems in simple, user-friendly functions. `clean_names()` changes column names to `lower_snake_case` with smart features for recognizing word breaks, changing symbols to words (% to "percent"), and more. `tabyl()` is an improvement on `base::table()`, a function for reporting frequency counts and percentages, with options for missing values. `get_dupes()` and `remove_empty()` are useful helpers for duplicated or empty rows and columns.
+
+A great [post](https://albert-rapp.de/post/2022-01-12-janitor-showcase/) by Albert Rapp goes into more detail with examples.
+
+Find `janitor` [here](https://cran.csail.mit.edu/web/packages/janitor/index.html) and documentation [here](https://www.rdocumentation.org/packages/janitor/versions/2.1.0).
