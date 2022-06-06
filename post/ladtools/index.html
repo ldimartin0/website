@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Personal R Package · Luke DiMartino</title>
+
+
+
+<link rel="stylesheet" href="/css/rocinante.css" />
+
+
+
+<body>
+    <header><h2>
+  
+    <a href="https://lukedimartino.com">‹ Luke DiMartino</a>
+  
+</h2>
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</header>
+    <main>
+
+    <div class="post">
+        <div class="title-group">
+            <div class="title">
+                <h1>My Personal R Package</h1>
+            </div>
+            <div class="date"><h5>Jun 02, 2022</h5></div>
+        </div>
+        <article class="content">
+            
+
+
+<p>The semester is over, so what better time to get to work on my personal R package, <code>ladtools</code>. Most of the functions are simple wrappers that improve my workflow.</p>
+<p>Find the package on my GitHub <a href="https://github.com/ldimartin0/ladtools">here</a>.</p>
+<div id="geom_lm-and-scatter" class="section level3">
+<h3><code>geom_lm()</code> and <code>scatter()</code></h3>
+<p>I fit <strong>a lot</strong> of linear regressions and I do not enjoy the <code>base::plot()</code> and <code>base::abline()</code> syntax for quick visualization. So instead, I built two functions, <code>geom_lm()</code> and <code>scatter()</code>.</p>
+<p><code>geom_lm()</code> is a wrapper for <code>geom_smooth()</code> with nicer defaults. Instead of fitting a LOESS model, it fits simple OLS, does not plot standard errors, and does not return that pesky warning when the formula is not declared.</p>
+<pre class="r"><code>ggplot(midwest) +
+  aes(x = percollege, y = percbelowpoverty) +
+  geom_point() +
+  geom_smooth() +
+  theme_blog()</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="https://lukedimartino.com/post/ladtools/index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>That warning annoys me to no end.</p>
+<p>Instead,</p>
+<pre class="r"><code>ggplot(midwest) +
+  aes(x = percollege, y = percbelowpoverty) +
+  geom_point() +
+  geom_lm() +
+  theme_blog()</code></pre>
+<p><img src="https://lukedimartino.com/post/ladtools/index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><code>scatter()</code> replicates Stata’s <code>scatter</code> command’s most frequent use case: quickly plotting data and a linear trend line through it. <code>scatter()</code> is just <code>ggplot()</code>, <code>geom_point()</code>, and <code>geom_lm()</code> combined into one call.</p>
+<pre class="r"><code>scatter(midwest, percbelowpoverty, percollege) +
+    theme_blog()</code></pre>
+<p><img src="https://lukedimartino.com/post/ladtools/index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="is_increasing-and-is_decreasing" class="section level3">
+<h3><code>is_increasing()</code> and <code>is_decreasing()</code></h3>
+<p>These functions are wrappers meant to increase code readability.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> They are mostly self explanatory. The <code>strictly</code> parameter governs whether repeated values count as increasing/decreasing or not. It defaults to <code>FALSE</code>, allowing repeated values.</p>
+<pre class="r"><code>vec &lt;- c(1, 1, 2, 3)
+
+is_increasing(vec)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>is_increasing(vec, strictly = T)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+</div>
+<div id="calculate_outlier_value" class="section level3">
+<h3><code>calculate_outlier_value()</code></h3>
+<p>In many introductory statistics classes, students are taught that values outside 3 standard deviations from the mean or 1.5 times the interquartile range plus or minus the 75th or 25th percentiles, respectively, are outliers. This test disappears quickly in most statistics curricula (for good reason), but I find it useful to understand the tails of my data, to rapidly test for influential points, and to adjust visualizations.</p>
+<p>Boxplots are an excellent visual tool for understanding the distance outliers are from the rest of the data. With larger <span class="math inline">\(n\)</span>, that method begins to fail. For a quick diagnosis, trimming outliers is quite convenient.</p>
+<p>Influential point diagnostics exist for many models as well, often involving refitting the model without the outlying point. Trimming does this with all outlying points, a first look into the impact of influential points.</p>
+<p>Visualizations also run into problems with outliers, especially with gradient color scales. One outlier can dramatically alter the scale, minimizing the differences between most of the distribution. Filtering or setting outliers to <code>NA</code> is a shortcut that sacrifices little integrity to visualize the majority of the distribution properly.</p>
+</div>
+<div id="theme_blog" class="section level3">
+<h3><code>theme_blog()</code></h3>
+<p>Standard <code>ggplot2</code> visualizations look decent, but anyone publishing graphs for a website or organization should do better. After thousands of graphs, the gray background looks a bit dated, and who decided the standard font should be Arial?</p>
+<p>Here’s a standard <code>ggplot2</code> graph:</p>
+<p><code>ggplot2</code>-included <code>theme_bw()</code> cleans up image:</p>
+<p>Custom themes are best built on top of a prior theme:</p>
+<pre><code>theme_blog &lt;- function() {
+  theme_bw(base_size = 11, base_family = &quot;Verdana&quot;) %+replace%</code></pre>
+<p>The <a href="https://www.rdocumentation.org/packages/ggplot2/versions/3.3.6/topics/theme_get"><code>%+replace</code> operator</a> updates the new theme based on <code>theme_bw()</code>. The font now matches the site.</p>
+<p>Next, <code>theme()</code> arguments specify aspects of the theme. Custom themes are intimidating at first because they are verbose and isolated: they rely on little outside <code>ggplot2</code>. However, a detailed custom theme requires knowing only four functions of the <code>element_</code> family — <code>element_blank()</code>, <code>element_rect()</code>, <code>element_line()</code>, and <code>element_text()</code> — and <code>margins()</code> to control margins.</p>
+<p>First, I make everything behind the plot transparent:</p>
+<pre><code>    theme(
+      # Make everything transparent
+      panel.background = element_blank(),
+      plot.background = element_rect(
+        fill = &quot;transparent&quot;,
+        colour = NA
+        ),
+      legend.key = element_rect(
+        fill = &quot;transparent&quot;,
+        colour = NA
+        ),</code></pre>
+<p>Next, I eliminate tick marks because they are redundant with panel lines across the entire plots. Without tick marks, the labels along the axes are a</p>
+<pre><code>      # Eliminate tick marks
+      axis.ticks = element_blank(),</code></pre>
+<p>Next, I center and enlarge the title and subtitle.</p>
+<pre><code>      # Adjust text elements
+      plot.title = element_text(
+        size = 16,
+        face = &quot;bold&quot;,
+        hjust = .5, # center align
+        vjust = 1,
+        margin = margin(t = 8, b = 5)
+      ),
+      plot.subtitle = element_text(
+        size = 12,
+        margin = margin(t = 1, b = 5)
+      ),
+      plot.caption = element_text(
+        size = 8,
+        hjust = 1
+      ),</code></pre>
+<p>Since the tick marks are gone, the variable names on the axes and the axis labels need adjustment.</p>
+<pre><code>      axis.title = element_text(size = 10),
+      axis.text = element_text(size = 9),
+      axis.text.x = element_text(
+        margin = margin(1, b = 5)
+      ),
+      axis.text.y = element_text(
+        margin = margin(r = .5, l = 5)
+      ),</code></pre>
+<p>When positioned inside the plot, I appreciate a background for the legend. I override this setting fairly often.</p>
+<pre><code>      # Legend settings
+      legend.background = element_rect(
+        fill = &quot;light gray&quot;,
+        color = &quot;black&quot;,
+        size = .3
+        ),
+      legend.title = element_text(size = 7),
+      legend.text = element_text(
+        size = 7,
+        margin = margin(t = 0, b = 0)
+      ),
+      legend.key.size = unit(.65, &quot;lines&quot;),</code></pre>
+<p>I decided against minor grid lines because they make the plot so busy.</p>
+<pre><code>      # Remove minor grid lines
+      panel.grid.minor = element_blank()
+    )
+}</code></pre>
+<p>And that’s it! Here is what the graph looks like with <code>theme_blog()</code>:</p>
+<pre class="r"><code>ggplot(mtcars) +
+    aes(x = hp, y = mpg) +
+    geom_point(aes(color = factor(cyl))) +
+    geom_lm() +
+    labs(
+        x = &quot;Horsepower&quot;, 
+        y = &quot;Miles Per Gallon&quot;, 
+        color = &quot;No. of Cylinders&quot;,
+        caption = &quot;mtcars data&quot;,
+        title = &quot;A Basic Scatterplot&quot;,
+        subtitle = &quot;Greater Horsepower Corresponds with Lower Fuel Efficiency&quot;) +
+    theme_blog() +
+    theme(legend.position = c(.8, .8))</code></pre>
+<p><img src="https://lukedimartino.com/post/ladtools/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>In all honesty, I lost points in statistics classes using <code>is.unsorted()</code> because the grader did not understand what was happening. I wrote wrappers months ago and packaged them for convenience.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+        </article>
+        
+            <div class="tags">
+                <span title="Tags">🏷</span>
+                <div class="horizontal-links links">
+                    <a href="/tags/r/">R</a><a href="/tags/packages/">packages</a><a href="/tags/visualization/">visualization</a>
+                </div>
+            </div>
+        
+    </article>
+
+
+    </main>
+    <footer>
+  <div class="content-container">
+    <div class="content"><p>Hi, I&rsquo;m <strong>Luke</strong>.</p>
+<p>I&rsquo;m a senior at Georgetown University studying Economics, Statistics, and Government. I&rsquo;m interested in industrial organization/antitrust economics, econometrics, and baseball statistics.</p>
+<p><strong><a href="/post">Blog</a></strong>: Writings on economics, data analysis, and other subjects.</p>
+<p><strong><a href="/projects">Projects</a></strong>: Some of my work.</p>
+
+
+
+  <p class="horizontal-links"><a href="/about"
+       
+       
+      >About</a><a href="/blogroll"
+       
+       
+      >Blogroll</a><a href="/contact"
+       
+        class="email-hook" id="about-email" title="Click to show email" 
+      >Email</a><a href="https://github.com/ldimartin0"
+        target="_blank" 
+       
+      >GitHub</a><a href="https://twitter.com/luke_d1m"
+        target="_blank" 
+       
+      >Twitter</a><a href="https://www.linkedin.com/in/luke-dimartino-5171a1203/"
+        target="_blank" 
+       
+      >LinkedIn</a></p>
+
+</div>
+  </div>
+</footer>
+    
+    <script>
+      const emailId = atob("bHVrZS5kbnVAZ21haWwuY29t");
+    </script>
+    <script src="/js/rocinante.min.js"></script>
+  </body>
+</html>

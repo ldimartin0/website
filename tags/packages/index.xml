@@ -6,10 +6,156 @@
     <description>Recent content in packages on Luke DiMartino</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Apr 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jun 2022 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://lukedimartino.com/tags/packages/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>My Personal R Package</title>
+      <link>https://lukedimartino.com/post/ladtools/</link>
+      <pubDate>Thu, 02 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lukedimartino.com/post/ladtools/</guid>
+      <description>
+
+
+&lt;p&gt;The semester is over, so what better time to get to work on my personal R package, &lt;code&gt;ladtools&lt;/code&gt;. Most of the functions are simple wrappers that improve my workflow.&lt;/p&gt;
+&lt;p&gt;Find the package on my GitHub &lt;a href=&#34;https://github.com/ldimartin0/ladtools&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;div id=&#34;geom_lm-and-scatter&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;code&gt;geom_lm()&lt;/code&gt; and &lt;code&gt;scatter()&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;I fit &lt;strong&gt;a lot&lt;/strong&gt; of linear regressions and I do not enjoy the &lt;code&gt;base::plot()&lt;/code&gt; and &lt;code&gt;base::abline()&lt;/code&gt; syntax for quick visualization. So instead, I built two functions, &lt;code&gt;geom_lm()&lt;/code&gt; and &lt;code&gt;scatter()&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;geom_lm()&lt;/code&gt; is a wrapper for &lt;code&gt;geom_smooth()&lt;/code&gt; with nicer defaults. Instead of fitting a LOESS model, it fits simple OLS, does not plot standard errors, and does not return that pesky warning when the formula is not declared.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(midwest) +
+  aes(x = percollege, y = percbelowpoverty) +
+  geom_point() +
+  geom_smooth() +
+  theme_blog()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `geom_smooth()` using method = &amp;#39;loess&amp;#39; and formula &amp;#39;y ~ x&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://lukedimartino.com/post/ladtools/index_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;That warning annoys me to no end.&lt;/p&gt;
+&lt;p&gt;Instead,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(midwest) +
+  aes(x = percollege, y = percbelowpoverty) +
+  geom_point() +
+  geom_lm() +
+  theme_blog()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://lukedimartino.com/post/ladtools/index_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;scatter()&lt;/code&gt; replicates Stata’s &lt;code&gt;scatter&lt;/code&gt; command’s most frequent use case: quickly plotting data and a linear trend line through it. &lt;code&gt;scatter()&lt;/code&gt; is just &lt;code&gt;ggplot()&lt;/code&gt;, &lt;code&gt;geom_point()&lt;/code&gt;, and &lt;code&gt;geom_lm()&lt;/code&gt; combined into one call.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;scatter(midwest, percbelowpoverty, percollege) +
+    theme_blog()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://lukedimartino.com/post/ladtools/index_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;is_increasing-and-is_decreasing&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;code&gt;is_increasing()&lt;/code&gt; and &lt;code&gt;is_decreasing()&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;These functions are wrappers meant to increase code readability.&lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; They are mostly self explanatory. The &lt;code&gt;strictly&lt;/code&gt; parameter governs whether repeated values count as increasing/decreasing or not. It defaults to &lt;code&gt;FALSE&lt;/code&gt;, allowing repeated values.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;vec &amp;lt;- c(1, 1, 2, 3)
+
+is_increasing(vec)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;is_increasing(vec, strictly = T)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] FALSE&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;calculate_outlier_value&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;code&gt;calculate_outlier_value()&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;In many introductory statistics classes, students are taught that values outside 3 standard deviations from the mean or 1.5 times the interquartile range plus or minus the 75th or 25th percentiles, respectively, are outliers. This test disappears quickly in most statistics curricula (for good reason), but I find it useful to understand the tails of my data, to rapidly test for influential points, and to adjust visualizations.&lt;/p&gt;
+&lt;p&gt;Boxplots are an excellent visual tool for understanding the distance outliers are from the rest of the data. With larger &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt;, that method begins to fail. For a quick diagnosis, trimming outliers is quite convenient.&lt;/p&gt;
+&lt;p&gt;Influential point diagnostics exist for many models as well, often involving refitting the model without the outlying point. Trimming does this with all outlying points, a first look into the impact of influential points.&lt;/p&gt;
+&lt;p&gt;Visualizations also run into problems with outliers, especially with gradient color scales. One outlier can dramatically alter the scale, minimizing the differences between most of the distribution. Filtering or setting outliers to &lt;code&gt;NA&lt;/code&gt; is a shortcut that sacrifices little integrity to visualize the majority of the distribution properly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;theme_blog&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;code&gt;theme_blog()&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;Standard &lt;code&gt;ggplot2&lt;/code&gt; visualizations look decent, but anyone publishing graphs for a website or organization should do better. After thousands of graphs, the gray background looks a bit dated, and who decided the standard font should be Arial?&lt;/p&gt;
+&lt;p&gt;Here’s a standard &lt;code&gt;ggplot2&lt;/code&gt; graph:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ggplot2&lt;/code&gt;-included &lt;code&gt;theme_bw()&lt;/code&gt; cleans up image:&lt;/p&gt;
+&lt;p&gt;Custom themes are best built on top of a prior theme:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;theme_blog &amp;lt;- function() {
+  theme_bw(base_size = 11, base_family = &amp;quot;Verdana&amp;quot;) %+replace%&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;a href=&#34;https://www.rdocumentation.org/packages/ggplot2/versions/3.3.6/topics/theme_get&#34;&gt;&lt;code&gt;%+replace&lt;/code&gt; operator&lt;/a&gt; updates the new theme based on &lt;code&gt;theme_bw()&lt;/code&gt;. The font now matches the site.&lt;/p&gt;
+&lt;p&gt;Next, &lt;code&gt;theme()&lt;/code&gt; arguments specify aspects of the theme. Custom themes are intimidating at first because they are verbose and isolated: they rely on little outside &lt;code&gt;ggplot2&lt;/code&gt;. However, a detailed custom theme requires knowing only four functions of the &lt;code&gt;element_&lt;/code&gt; family — &lt;code&gt;element_blank()&lt;/code&gt;, &lt;code&gt;element_rect()&lt;/code&gt;, &lt;code&gt;element_line()&lt;/code&gt;, and &lt;code&gt;element_text()&lt;/code&gt; — and &lt;code&gt;margins()&lt;/code&gt; to control margins.&lt;/p&gt;
+&lt;p&gt;First, I make everything behind the plot transparent:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    theme(
+      # Make everything transparent
+      panel.background = element_blank(),
+      plot.background = element_rect(
+        fill = &amp;quot;transparent&amp;quot;,
+        colour = NA
+        ),
+      legend.key = element_rect(
+        fill = &amp;quot;transparent&amp;quot;,
+        colour = NA
+        ),&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, I eliminate tick marks because they are redundant with panel lines across the entire plots. Without tick marks, the labels along the axes are a&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;      # Eliminate tick marks
+      axis.ticks = element_blank(),&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, I center and enlarge the title and subtitle.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;      # Adjust text elements
+      plot.title = element_text(
+        size = 16,
+        face = &amp;quot;bold&amp;quot;,
+        hjust = .5, # center align
+        vjust = 1,
+        margin = margin(t = 8, b = 5)
+      ),
+      plot.subtitle = element_text(
+        size = 12,
+        margin = margin(t = 1, b = 5)
+      ),
+      plot.caption = element_text(
+        size = 8,
+        hjust = 1
+      ),&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Since the tick marks are gone, the variable names on the axes and the axis labels need adjustment.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;      axis.title = element_text(size = 10),
+      axis.text = element_text(size = 9),
+      axis.text.x = element_text(
+        margin = margin(1, b = 5)
+      ),
+      axis.text.y = element_text(
+        margin = margin(r = .5, l = 5)
+      ),&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When positioned inside the plot, I appreciate a background for the legend. I override this setting fairly often.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;      # Legend settings
+      legend.background = element_rect(
+        fill = &amp;quot;light gray&amp;quot;,
+        color = &amp;quot;black&amp;quot;,
+        size = .3
+        ),
+      legend.title = element_text(size = 7),
+      legend.text = element_text(
+        size = 7,
+        margin = margin(t = 0, b = 0)
+      ),
+      legend.key.size = unit(.65, &amp;quot;lines&amp;quot;),&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I decided against minor grid lines because they make the plot so busy.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;      # Remove minor grid lines
+      panel.grid.minor = element_blank()
+    )
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And that’s it! Here is what the graph looks like with &lt;code&gt;theme_blog()&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(mtcars) +
+    aes(x = hp, y = mpg) +
+    geom_point(aes(color = factor(cyl))) +
+    geom_lm() +
+    labs(
+        x = &amp;quot;Horsepower&amp;quot;, 
+        y = &amp;quot;Miles Per Gallon&amp;quot;, 
+        color = &amp;quot;No. of Cylinders&amp;quot;,
+        caption = &amp;quot;mtcars data&amp;quot;,
+        title = &amp;quot;A Basic Scatterplot&amp;quot;,
+        subtitle = &amp;quot;Greater Horsepower Corresponds with Lower Fuel Efficiency&amp;quot;) +
+    theme_blog() +
+    theme(legend.position = c(.8, .8))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://lukedimartino.com/post/ladtools/index_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;In all honesty, I lost points in statistics classes using &lt;code&gt;is.unsorted()&lt;/code&gt; because the grader did not understand what was happening. I wrote wrappers months ago and packaged them for convenience.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description> 
+    </item>
     
     <item>
       <title>Packages for Exploratory Data Analysis in R</title>
