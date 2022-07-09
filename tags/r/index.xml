@@ -6,10 +6,23 @@
     <description>Recent content in R on Luke DiMartino</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 06 Jun 2022 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://lukedimartino.com/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Check Out (My Blog on) R-bloggers!</title>
+      <link>https://lukedimartino.com/post/r-bloggers/</link>
+      <pubDate>Mon, 06 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://lukedimartino.com/post/r-bloggers/</guid>
+      <description>&lt;p&gt;Check out &lt;a href=&#34;https://www.r-bloggers.com&#34; target=&#34;_blank&#34;&gt;R-bloggers&lt;/a&gt;, an aggregate of R blogs on the internet that now includes my blog!&lt;/p&gt;
+&lt;p&gt;RSS readers are a wonderful and &lt;a href=&#34;https://mcfunley.com/choose-boring-technology&#34; target=&#34;_blank&#34;&gt;boring technology&lt;/a&gt; that I am beginning to use personally.
+R-bloggers only captures posts in the R category (confusingly, not the R tag that appears at the bottom of each post).
+To get all of my posts, use &lt;a href=&#34;https://www.lukedimartino.com/post/index.xml&#34; target=&#34;_blank&#34;&gt;this RSS link&lt;/a&gt;.&lt;/p&gt;
+</description> 
+    </item>
     
     <item>
       <title>My Personal R Package</title>
